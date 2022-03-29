@@ -14,15 +14,15 @@ public class EmployeeService {
     Employee[] employees = new Employee[5];
 
 
-    public String addEmployee(String e, String f) {
-        if (checkEmployee(e, f)) {
+    public String addEmployee(String firstName, String lastName) {
+        if (checkEmployee(firstName, lastName)) {
             throw new EmployeeAddedYetException();
         }
         for (int i = 0; i <= employees.length; i++) {
             if (i == employees.length) {
                 throw new ArrayFullException();
             } else if (employees[i] == null) {
-                employees[i] = new Employee(e, f);
+                employees[i] = new Employee(firstName, lastName);
                 return employees[i].toString();
             }
         }
@@ -30,35 +30,45 @@ public class EmployeeService {
     }
 
 
-    public String deleteEmployee(String e, String f) {
-        for (int i = 0; i < employees.length; i++) {
-            if (employees[i].equals(new Employee(e, f))) {
-                employees[i] = null;
-                return employees[i].toString();
-            }
-        }
-
-        return "";
-    }
-
-    public String findEmployee(String e, String f) {
-        if (checkEmployee(e, f)) {
+    public String deleteEmployee(String firstName, String lastName) {
+        int i = arrayIndexEmployee(firstName, lastName);
+        if (i != -1) {
+            employees[i] = null;
             return "{" +
-                    "firstName: " + e +
-                    ", lastName: " + f +
+                    "firstName: " + firstName +
+                    ", lastName: " + lastName +
                     "}";
         } else {
             throw new BadParamsException();
         }
     }
 
-    public boolean checkEmployee(String e, String f) {
+    public String findEmployee(String firstName, String lastName) {
+        if (checkEmployee(firstName, lastName)) {
+            return "{" +
+                    "firstName: " + firstName +
+                    ", lastName: " + lastName +
+                    "}";
+        } else {
+            throw new BadParamsException();
+        }
+    }
+
+    public boolean checkEmployee(String firstName, String lastName) {
         for (int i = 0; i < employees.length; i++) {
-            if (employees[i] != null && employees[i].equals(new Employee(e, f))) {
+            if (employees[i] != null && employees[i].equals(new Employee(firstName, lastName))) {
                 return true;
             }
         }
         return false;
+    }
+    public int arrayIndexEmployee(String firstName, String lastName) {
+        for (int i = 0; i < employees.length; i++) {
+            if (employees[i] != null && employees[i].equals(new Employee(firstName, lastName))) {
+                return i;
+            }
+        }
+        return -1;
     }
 }
 

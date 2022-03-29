@@ -8,15 +8,10 @@ import java.util.Objects;
 public class Employee {
     private String firstName;
     private String lastName;
-    public int id;
 
     public Employee(String firstName, String lastName) {
         this.firstName = firstName;
         this.lastName = lastName;
-        id++;
-    }
-
-    public Employee() {
     }
 
     public String getFirstName() {
@@ -27,9 +22,6 @@ public class Employee {
         return lastName;
     }
 
-    public int getId() {
-        return id;
-    }
 
     @Override
     public boolean equals(Object o) {
