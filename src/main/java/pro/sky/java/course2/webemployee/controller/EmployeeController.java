@@ -14,16 +14,33 @@ public class EmployeeController {
 
     @GetMapping("/add")
     public String add(@RequestParam String firstName, @RequestParam String lastName) {
-        return employeeService.addEmployee(firstName, lastName);
+        employeeService.addEmployee(firstName, lastName);
+        return "{" +
+                "firstName: " + firstName +
+                ", lastName: " + lastName +
+                "}";
     }
 
     @GetMapping("/remove")
     public String delete(@RequestParam String firstName, @RequestParam String lastName) {
-        return employeeService.deleteEmployee(firstName, lastName);
+        employeeService.deleteEmployee(firstName, lastName);
+        return "{" +
+                "firstName: " + firstName +
+                ", lastName: " + lastName +
+                "}";
     }
 
     @GetMapping("/find")
     public String find(@RequestParam String firstName, @RequestParam String lastName) {
-        return employeeService.findEmployee(firstName, lastName);
+        employeeService.findEmployee(firstName, lastName);
+        return "{" +
+                "firstName: " + firstName +
+                ", lastName: " + lastName +
+                "}";
+    }
+
+    @GetMapping("/list")
+    public String printList() {
+        return employeeService.printList();
     }
 }
