@@ -15,35 +15,38 @@ public class EmployeeService {
     public EmployeeService() {
     }
 
-    public void addEmployee(String firstName, String lastName) {
+    public Employee addEmployee(String firstName, String lastName) {
         Employee employee = new Employee(firstName, lastName);
         if (employees.contains(employee)) {
             throw new EmployeeAddedYetException();
         } else {
             employees.add(employee);
         }
+        return employee;
     }
 
 
-    public void deleteEmployee(String firstName, String lastName) {
+    public Employee deleteEmployee(String firstName, String lastName) {
         Employee employee = new Employee(firstName, lastName);
         if (!employees.contains(employee)) {
             throw new BadParamsException();
         } else {
             employees.remove(employee);
         }
+        return employee;
     }
 
-    public boolean findEmployee(String firstName, String lastName) {
+    public Employee findEmployee(String firstName, String lastName) {
+        Employee employee = new Employee(firstName, lastName);
         if (employees.contains(new Employee(firstName, lastName))) {
-            return true;
+            return employee;
         } else {
             throw new BadParamsException();
         }
     }
 
-    public String printList(){
-        return employees.toString();
+    public List<Employee> printList() {
+        return employees;
     }
 }
 
