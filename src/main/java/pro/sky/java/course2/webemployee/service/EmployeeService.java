@@ -10,10 +10,8 @@ import java.util.List;
 
 @Service
 public class EmployeeService {
-    List<Employee> employees = new ArrayList<>();
+    private final List<Employee> employees = new ArrayList<>();
 
-    public EmployeeService() {
-    }
 
     public Employee addEmployee(String firstName, String lastName) {
         Employee employee = new Employee(firstName, lastName);
@@ -45,7 +43,7 @@ public class EmployeeService {
         }
     }
 
-    public List<Employee> printList() {
+    public List<Employee> getAllEmployees() {
         return employees;
     }
 }
