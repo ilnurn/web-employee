@@ -4,21 +4,22 @@ import org.springframework.stereotype.Service;
 import pro.sky.java.course2.webemployee.exceptions.BadParamsException;
 import pro.sky.java.course2.webemployee.exceptions.EmployeeAddedYetException;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.*;
 
 
 @Service
 public class EmployeeService {
-    private final List<Employee> employees = new ArrayList<>();
+    private final Map<Employee, Integer> employees = new HashMap();
 
 
     public Employee addEmployee(String firstName, String lastName) {
         Employee employee = new Employee(firstName, lastName);
-        if (employees.contains(employee)) {
+        int id=0;
+        id++;
+        if (employees.get(employee)!=null) {
             throw new EmployeeAddedYetException();
         } else {
-            employees.add(employee);
+            employees.put(employee, id);
         }
         return employee;
     }
@@ -26,7 +27,7 @@ public class EmployeeService {
 
     public Employee deleteEmployee(String firstName, String lastName) {
         Employee employee = new Employee(firstName, lastName);
-        if (!employees.contains(employee)) {
+        if (employees.get(employee) == null) {
             throw new BadParamsException();
         } else {
             employees.remove(employee);
@@ -36,15 +37,15 @@ public class EmployeeService {
 
     public Employee findEmployee(String firstName, String lastName) {
         Employee employee = new Employee(firstName, lastName);
-        if (employees.contains(new Employee(firstName, lastName))) {
+        if (employees.get(employee) != null) {
             return employee;
         } else {
             throw new BadParamsException();
         }
     }
 
-    public List<Employee> getAllEmployees() {
-        return employees;
+    public Set<Employee> getAllEmployees() {
+        return (Set<Employee>) employees.keySet();
     }
 }
 
