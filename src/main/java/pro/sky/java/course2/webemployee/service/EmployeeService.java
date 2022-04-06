@@ -1,75 +1,52 @@
 package pro.sky.java.course2.webemployee.service;
 
 import org.springframework.stereotype.Service;
-import pro.sky.java.course2.webemployee.exceptions.ArrayFullException;
 import pro.sky.java.course2.webemployee.exceptions.BadParamsException;
 import pro.sky.java.course2.webemployee.exceptions.EmployeeAddedYetException;
+
+import java.util.ArrayList;
+import java.util.List;
 
 
 @Service
 public class EmployeeService {
-    public EmployeeService() {
-    }
-
-    Employee[] employees = new Employee[5];
+    private final List<Employee> employees = new ArrayList<>();
 
 
-    public String addEmployee(String firstName, String lastName) {
-        if (checkEmployee(firstName, lastName)) {
+    public Employee addEmployee(String firstName, String lastName) {
+        Employee employee = new Employee(firstName, lastName);
+        if (employees.contains(employee)) {
             throw new EmployeeAddedYetException();
+        } else {
+            employees.add(employee);
         }
-        for (int i = 0; i <= employees.length; i++) {
-            if (i == employees.length) {
-                throw new ArrayFullException();
-            } else if (employees[i] == null) {
-                employees[i] = new Employee(firstName, lastName);
-                return employees[i].toString();
-            }
-        }
-        return "";
+        return employee;
     }
 
 
-    public String deleteEmployee(String firstName, String lastName) {
-        int i = arrayIndexEmployee(firstName, lastName);
-        if (i != -1) {
-            employees[i] = null;
-            return "{" +
-                    "firstName: " + firstName +
-                    ", lastName: " + lastName +
-                    "}";
+    public Employee deleteEmployee(String firstName, String lastName) {
+        Employee employee = new Employee(firstName, lastName);
+        if (!employees.contains(employee)) {
+            throw new BadParamsException();
+        } else {
+            employees.remove(employee);
+        }
+        return employee;
+    }
+
+    public Employee findEmployee(String firstName, String lastName) {
+        Employee employee = new Employee(firstName, lastName);
+        if (employees.contains(new Employee(firstName, lastName))) {
+            return employee;
         } else {
             throw new BadParamsException();
         }
     }
 
-    public String findEmployee(String firstName, String lastName) {
-        if (checkEmployee(firstName, lastName)) {
-            return "{" +
-                    "firstName: " + firstName +
-                    ", lastName: " + lastName +
-                    "}";
-        } else {
-            throw new BadParamsException();
-        }
-    }
-
-    public boolean checkEmployee(String firstName, String lastName) {
-        for (int i = 0; i < employees.length; i++) {
-            if (employees[i] != null && employees[i].equals(new Employee(firstName, lastName))) {
-                return true;
-            }
-        }
-        return false;
-    }
-    public int arrayIndexEmployee(String firstName, String lastName) {
-        for (int i = 0; i < employees.length; i++) {
-            if (employees[i] != null && employees[i].equals(new Employee(firstName, lastName))) {
-                return i;
-            }
-        }
-        return -1;
+    public List<Employee> getAllEmployees() {
+        return employees;
     }
 }
+
 
 
