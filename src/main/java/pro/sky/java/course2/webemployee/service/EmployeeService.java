@@ -3,6 +3,7 @@ package pro.sky.java.course2.webemployee.service;
 import org.springframework.stereotype.Service;
 import pro.sky.java.course2.webemployee.exceptions.BadParamsException;
 import pro.sky.java.course2.webemployee.exceptions.EmployeeAddedYetException;
+import pro.sky.java.course2.webemployee.exceptions.NotFoundException;
 
 import java.util.*;
 
@@ -34,7 +35,7 @@ public class EmployeeService {
         if (employees.get(firstName + lastName) != null) {
             return employees.get(firstName + lastName);
         } else {
-            throw new BadParamsException();
+            throw new NotFoundException("Сотрудник " + firstName + " " + lastName + " не найден");
         }
     }
 
