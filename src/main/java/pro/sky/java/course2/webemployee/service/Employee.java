@@ -1,8 +1,5 @@
 package pro.sky.java.course2.webemployee.service;
 
-import org.springframework.stereotype.Service;
-import pro.sky.java.course2.webemployee.controller.EmployeeController;
-
 import java.util.Objects;
 
 public class Employee {
@@ -10,6 +7,7 @@ public class Employee {
     private String lastName;
 
     public Employee(String firstName, String lastName) {
+        int count = 0;
         this.firstName = firstName;
         this.lastName = lastName;
     }
@@ -21,7 +19,6 @@ public class Employee {
     public String getLastName() {
         return lastName;
     }
-
 
     @Override
     public boolean equals(Object o) {

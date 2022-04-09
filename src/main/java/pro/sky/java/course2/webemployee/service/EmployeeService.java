@@ -3,48 +3,44 @@ package pro.sky.java.course2.webemployee.service;
 import org.springframework.stereotype.Service;
 import pro.sky.java.course2.webemployee.exceptions.BadParamsException;
 import pro.sky.java.course2.webemployee.exceptions.EmployeeAddedYetException;
+import pro.sky.java.course2.webemployee.exceptions.NotFoundException;
 
-import java.util.ArrayList;
-import java.util.List;
-
+import java.util.*;
 
 @Service
 public class EmployeeService {
-    private final List<Employee> employees = new ArrayList<>();
-
+    private final Map<String, Employee> employees = new HashMap();
 
     public Employee addEmployee(String firstName, String lastName) {
-        Employee employee = new Employee(firstName, lastName);
-        if (employees.contains(employee)) {
+        if (employees.get(firstName + lastName)!=null) {
             throw new EmployeeAddedYetException();
         } else {
-            employees.add(employee);
+            employees.put(firstName + lastName, new Employee(firstName,lastName));
         }
-        return employee;
+        return employees.get(firstName + lastName);
     }
 
-
     public Employee deleteEmployee(String firstName, String lastName) {
-        Employee employee = new Employee(firstName, lastName);
-        if (!employees.contains(employee)) {
+        Employee employee;
+        if (employees.get(firstName + lastName) == null) {
             throw new BadParamsException();
         } else {
-            employees.remove(employee);
+            employee = employees.get(firstName + lastName);
+            employees.remove(firstName + lastName);
         }
         return employee;
     }
 
     public Employee findEmployee(String firstName, String lastName) {
-        Employee employee = new Employee(firstName, lastName);
-        if (employees.contains(new Employee(firstName, lastName))) {
-            return employee;
+        if (employees.get(firstName + lastName) != null) {
+            return employees.get(firstName + lastName);
         } else {
-            throw new BadParamsException();
+            throw new NotFoundException("Сотрудник " + firstName + " " + lastName + " не найден");
         }
     }
 
-    public List<Employee> getAllEmployees() {
-        return employees;
+    public Collection<Employee> getAllEmployees() {
+        return employees.values();
     }
 }
 
