@@ -9,8 +9,11 @@ import java.util.*;
 @RestController
 @RequestMapping("/departments")
 public class DepartmentController {
+    private final DepartmentService departmentService;
 
-    DepartmentService departmentService = new DepartmentService();
+    public DepartmentController(DepartmentService departmentService) {
+        this.departmentService = departmentService;
+    }
 
     @GetMapping("/max-salary")
     public Optional<Employee> maxSalary(@RequestParam int departmentId) {
@@ -22,14 +25,12 @@ public class DepartmentController {
         return departmentService.findEmployeeWithMinSalaryByTeam(departmentId);
     }
 
-    @GetMapping("/all/{departmentId}")
-    public Collection<String> allTeam(@PathVariable int departmentId) {
-        return departmentService.allTeamEmployees(departmentId);
-    }
-
     @GetMapping("/all")
-    public List<Employee> all() {
-        return departmentService.allEmployees();
+    public List<String> allTeam(@RequestParam(required = false) Integer departmentId) {
+        if (departmentId != null)
+            return departmentService.allTeamEmployees(departmentId);
+        else
+            return departmentService.allEmployees();
     }
 }
 

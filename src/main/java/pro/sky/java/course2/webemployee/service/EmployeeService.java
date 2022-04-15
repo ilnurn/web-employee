@@ -10,20 +10,11 @@ import java.util.stream.Collectors;
 
 @Service
 public class EmployeeService {
-    private final Map<String, Employee> employees = new HashMap(Map.of(
-            "IvanIvanov",
-            new Employee("Ivan", "Ivanov", 1, 100),
-            "PetrPetrov",
-            new Employee("Petr", "Petrov", 1, 100),
-            "AlexandrSmirnov",
-            new Employee("Alexandr", "Smirnov", 1, 200),
-            "AlexeyMashkov",
-            new Employee("Alexey", "Mashkov", 2, 100),
-            "AndreyAndreev",
-            new Employee("Andrey", "Andreev", 3, 500),
-            "VasiliyVasilyev",
-            new Employee("Vasiliy", "Vasilyev", 4, 200)
-    ));
+    private final Map<String,Employee> employees;
+
+    public EmployeeService(Set<Employee> employees) {
+        this.employees = new HashMap<>();
+    }
 
     public Employee addEmployee(String firstName, String lastName, int departmentId, int salary) {
         if (employees.get(firstName + lastName) != null) {

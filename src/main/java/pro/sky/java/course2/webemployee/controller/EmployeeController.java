@@ -12,8 +12,11 @@ import java.util.Collection;
 @RestController
 @RequestMapping("/employee")
 public class EmployeeController {
+    private final EmployeeService employeeService;
 
-    EmployeeService employeeService = new EmployeeService();
+    public EmployeeController(EmployeeService employeeService) {
+        this.employeeService = employeeService;
+    }
 
     @GetMapping("/add")
     public Employee add(@RequestParam String firstName, @RequestParam String lastName, @RequestParam int departmentId, int salary) {

@@ -7,22 +7,26 @@ import java.util.stream.Collectors;
 
 @Service
 public class DepartmentService {
+    private final EmployeeService employeeService;
 
-    EmployeeService employeeService = new EmployeeService();
+    public DepartmentService(EmployeeService employeeService) {
+        this.employeeService = employeeService;
+    }
 
-    public Collection<String> allTeamEmployees(int departmentId) {
-        Collection<String> allEmployeesOfTeam = employeeService.getAllEmployees().stream()
+    public List<String> allTeamEmployees(int departmentId) {
+        List<String> allEmployeesOfTeam = employeeService.getAllEmployees().stream()
                 .filter(e -> (e.getDepartmentId() == departmentId))
                 .map(p -> p.getFirstName() + " " + p.getLastName())
                 .collect(Collectors.toList());
         return allEmployeesOfTeam;
     }
 
-    public List<Employee> allEmployees() {
-        List<Employee> allEmployee = employeeService.getAllEmployees().stream()
+    public List<String> allEmployees() {
+       List<String> allEmployees = employeeService.getAllEmployees().stream()
                 .sorted(Comparator.comparing(f -> f.getDepartmentId()))
+                .map(p-> "department " + p.getDepartmentId() + ": " + p.getFirstName() + " " + p.getLastName())
                 .collect(Collectors.toList());
-        return allEmployee;
+        return allEmployees;
     }
 
     public Optional<Employee> findEmployeeWithMinSalaryByTeam(int departmentId) {
