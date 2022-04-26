@@ -3,10 +3,14 @@ package pro.sky.java.course2.webemployee.service;
 import org.springframework.stereotype.Service;
 import pro.sky.java.course2.webemployee.exceptions.BadParamsException;
 import pro.sky.java.course2.webemployee.exceptions.EmployeeAddedYetException;
+import pro.sky.java.course2.webemployee.exceptions.InvalidNameException;
 import pro.sky.java.course2.webemployee.exceptions.NotFoundException;
 
 import java.util.*;
 import java.util.stream.Collectors;
+
+import static org.apache.commons.lang3.StringUtils.capitalize;
+import static org.apache.commons.lang3.StringUtils.isAlpha;
 
 @Service
 public class EmployeeService {
@@ -17,12 +21,21 @@ public class EmployeeService {
     }
 
     public Employee addEmployee(String firstName, String lastName, int departmentId, int salary) {
+        validateNames(firstName,lastName);
+
+        Employee newEmployee = new Employee(
+                capitalize(firstName),
+                capitalize(lastName),
+                departmentId,
+                salary
+        );
+
         if (employees.get(firstName + lastName) != null) {
             throw new EmployeeAddedYetException();
         } else {
-            employees.put(firstName + lastName, new Employee(firstName, lastName, departmentId, salary));
+            employees.put(firstName + lastName, newEmployee);
         }
-        return employees.get(firstName + lastName);
+        return newEmployee;
     }
 
     public Employee deleteEmployee(String firstName, String lastName) {
@@ -53,6 +66,14 @@ public class EmployeeService {
                 .stream()
                 .map(e -> e.getValue())
                 .collect(Collectors.toList());
+    }
+
+    private void validateNames(String... names){
+        for (String name : names){
+            if (!isAlpha(name)){
+                throw new InvalidNameException(name);
+            }
+        }
     }
 }
 
