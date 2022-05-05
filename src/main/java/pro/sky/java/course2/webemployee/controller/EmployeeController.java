@@ -12,12 +12,15 @@ import java.util.Collection;
 @RestController
 @RequestMapping("/employee")
 public class EmployeeController {
+    private final EmployeeService employeeService;
 
-    EmployeeService employeeService = new EmployeeService();
+    public EmployeeController(EmployeeService employeeService) {
+        this.employeeService = employeeService;
+    }
 
     @GetMapping("/add")
-    public Employee add(@RequestParam String firstName, @RequestParam String lastName) {
-        return employeeService.addEmployee(firstName, lastName);
+    public Employee add(@RequestParam String firstName, @RequestParam String lastName, @RequestParam int departmentId, int salary) {
+        return employeeService.addEmployee(firstName, lastName, departmentId, salary);
     }
 
     @GetMapping("/remove")
@@ -34,4 +37,7 @@ public class EmployeeController {
     public Collection<Employee> printList() {
         return employeeService.getAllEmployees();
     }
+
+    @GetMapping("/list12")
+    public Collection<Employee> print(){return employeeService.getAllEmployee();}
 }

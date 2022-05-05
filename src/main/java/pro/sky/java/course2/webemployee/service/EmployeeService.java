@@ -3,21 +3,39 @@ package pro.sky.java.course2.webemployee.service;
 import org.springframework.stereotype.Service;
 import pro.sky.java.course2.webemployee.exceptions.BadParamsException;
 import pro.sky.java.course2.webemployee.exceptions.EmployeeAddedYetException;
+import pro.sky.java.course2.webemployee.exceptions.InvalidNameException;
 import pro.sky.java.course2.webemployee.exceptions.NotFoundException;
 
 import java.util.*;
+import java.util.stream.Collectors;
+
+import static org.apache.commons.lang3.StringUtils.capitalize;
+import static org.apache.commons.lang3.StringUtils.isAlpha;
 
 @Service
 public class EmployeeService {
-    private final Map<String, Employee> employees = new HashMap();
+    private final Map<String,Employee> employees;
 
-    public Employee addEmployee(String firstName, String lastName) {
-        if (employees.get(firstName + lastName)!=null) {
+    public EmployeeService(Set<Employee> employees) {
+        this.employees = new HashMap<>();
+    }
+
+    public Employee addEmployee(String firstName, String lastName, int departmentId, int salary) {
+        validateNames(firstName,lastName);
+
+        Employee newEmployee = new Employee(
+                capitalize(firstName),
+                capitalize(lastName),
+                departmentId,
+                salary
+        );
+
+        if (employees.get(firstName + lastName) != null) {
             throw new EmployeeAddedYetException();
         } else {
-            employees.put(firstName + lastName, new Employee(firstName,lastName));
+            employees.put(firstName + lastName, newEmployee);
         }
-        return employees.get(firstName + lastName);
+        return newEmployee;
     }
 
     public Employee deleteEmployee(String firstName, String lastName) {
@@ -41,6 +59,21 @@ public class EmployeeService {
 
     public Collection<Employee> getAllEmployees() {
         return employees.values();
+    }
+
+    public List<Employee> getAllEmployee() {
+        return employees.entrySet()
+                .stream()
+                .map(e -> e.getValue())
+                .collect(Collectors.toList());
+    }
+
+    private void validateNames(String... names){
+        for (String name : names){
+            if (!isAlpha(name)){
+                throw new InvalidNameException(name);
+            }
+        }
     }
 }
 
