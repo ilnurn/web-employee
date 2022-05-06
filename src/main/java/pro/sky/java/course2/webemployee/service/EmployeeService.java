@@ -14,18 +14,18 @@ import static org.apache.commons.lang3.StringUtils.isAlpha;
 
 @Service
 public class EmployeeService {
-    private final Map<String,Employee> employees;
+    private final Map<String, Employee> employees;
 
-    public EmployeeService(Set<Employee> employees) {
+    public EmployeeService() {
         this.employees = new HashMap<>();
     }
 
     public Employee addEmployee(String firstName, String lastName, int departmentId, int salary) {
-        validateNames(firstName,lastName);
+        validateNames(firstName, lastName);
 
         Employee newEmployee = new Employee(
-                capitalize(firstName),
-                capitalize(lastName),
+                capitalize(firstName.toLowerCase()),
+                capitalize(lastName.toLowerCase()),
                 departmentId,
                 salary
         );
@@ -68,9 +68,9 @@ public class EmployeeService {
                 .collect(Collectors.toList());
     }
 
-    private void validateNames(String... names){
-        for (String name : names){
-            if (!isAlpha(name)){
+    private void validateNames(String... names) {
+        for (String name : names) {
+            if (!isAlpha(name)) {
                 throw new InvalidNameException(name);
             }
         }
