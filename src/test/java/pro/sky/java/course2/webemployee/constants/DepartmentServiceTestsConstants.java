@@ -22,27 +22,18 @@ public class DepartmentServiceTestsConstants {
             artemArtemov
     );
 
-    public static final List<String> ALL_TEAM_STRING = List.of(
-            "department 1: Ivan Ivanov",
-            "department 1: Petr Petrov",
-            "department 2: Semen Semenov",
-            "department 2: Alexey Alexeyev",
-            "department 3: Denis Denisov",
-            "department 3: Artem Artemov"
+    public static final List<Employee> TEAM_1 = List.of(
+            ivanIvanov,
+            petrPetrov
     );
 
-    public static final List<String> TEAM_1 = List.of(
-            "Ivan Ivanov",
-            "Petr Petrov"
+    public static final List<Employee> TEAM_2 = List.of(
+            semenSemenov,
+            alexeyAlexeyev
     );
 
-    public static final List<String> TEAM_2 = List.of(
-            "Semen Semenov",
-            "Alexey Alexeyev"
-    );
-
-    public static final List<String> TEAM_3 = List.of(
-            "Denis Denisov",
-            "Artem Artemov"
+    public static final List<Employee> TEAM_3 = List.of(
+           denidDenisov,
+            artemArtemov
     );
 }

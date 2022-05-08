@@ -61,13 +61,6 @@ public class EmployeeService {
         return employees.values();
     }
 
-    public List<Employee> getAllEmployee() {
-        return employees.entrySet()
-                .stream()
-                .map(e -> e.getValue())
-                .collect(Collectors.toList());
-    }
-
     private void validateNames(String... names) {
         for (String name : names) {
             if (!isAlpha(name)) {

@@ -32,7 +32,7 @@ public class DepartmentServiceTest {
 
     @Test
     public void shouldCallEmployeeServiceMethodWhenFindEmployeeWithMinSalaryByTeam() {
-        when(employeeServiceMock.getAllEmployee())
+        when(employeeServiceMock.getAllEmployees())
                 .thenReturn(ALL_TEAM);
 
         assertEquals(out.findEmployeeWithMinSalaryByTeam(1).get(), ivanIvanov);
@@ -42,7 +42,7 @@ public class DepartmentServiceTest {
 
     @Test
     public void shouldCallEmployeeServiceMethodWhenFindEmployeeWithMaxSalaryByTeam() {
-        when(employeeServiceMock.getAllEmployee())
+        when(employeeServiceMock.getAllEmployees())
                 .thenReturn(ALL_TEAM);
 
         assertEquals(out.findEmployeeWithMaxSalaryByTeam(1).get(), petrPetrov);
@@ -55,7 +55,7 @@ public class DepartmentServiceTest {
         when(employeeServiceMock.getAllEmployees())
                 .thenReturn(ALL_TEAM);
 
-        assertIterableEquals(out.allEmployees(), ALL_TEAM_STRING);
+        assertIterableEquals(out.allEmployees(), ALL_TEAM);
     }
 
     @Test

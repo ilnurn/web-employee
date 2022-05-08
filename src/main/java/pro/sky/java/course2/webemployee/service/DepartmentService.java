@@ -14,26 +14,24 @@ public class DepartmentService {
         this.employeeService = employeeService;
     }
 
-    public List<String> allTeamEmployees(int departmentId) {
+    public Collection<Employee> allTeamEmployees(int departmentId) {
         checkDepartmentId(departmentId);
-        List<String> allEmployeesOfTeam = employeeService.getAllEmployees().stream()
+        Collection<Employee> allEmployeesOfTeam = employeeService.getAllEmployees().stream()
                 .filter(e -> (e.getDepartmentId() == departmentId))
-                .map(p -> p.getFirstName() + " " + p.getLastName())
                 .collect(Collectors.toList());
         return allEmployeesOfTeam;
     }
 
-    public List<String> allEmployees() {
-        List<String> allEmployees = employeeService.getAllEmployees().stream()
+    public Collection<Employee> allEmployees() {
+        Collection<Employee> allEmployees = employeeService.getAllEmployees().stream()
                 .sorted(Comparator.comparing(f -> f.getDepartmentId()))
-                .map(p -> "department " + p.getDepartmentId() + ": " + p.getFirstName() + " " + p.getLastName())
                 .collect(Collectors.toList());
         return allEmployees;
     }
 
     public Optional<Employee> findEmployeeWithMinSalaryByTeam(int departmentId) {
         checkDepartmentId(departmentId);
-        Optional<Employee> employeeWithMinSalaryByTeam = employeeService.getAllEmployee().stream()
+        Optional<Employee> employeeWithMinSalaryByTeam = employeeService.getAllEmployees().stream()
                 .filter(e -> (e.getDepartmentId() == departmentId))
                 .min(Comparator.comparingInt(p -> p.getSalary()));
         return employeeWithMinSalaryByTeam;
@@ -41,7 +39,7 @@ public class DepartmentService {
 
     public Optional<Employee> findEmployeeWithMaxSalaryByTeam(int departmentId) {
         checkDepartmentId(departmentId);
-        Optional<Employee> employeeWithMinSalaryByTeam = employeeService.getAllEmployee().stream()
+        Optional<Employee> employeeWithMinSalaryByTeam = employeeService.getAllEmployees().stream()
                 .filter(e -> (e.getDepartmentId() == departmentId))
                 .max(Comparator.comparingInt(p -> p.getSalary()));
         return employeeWithMinSalaryByTeam;
