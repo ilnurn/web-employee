@@ -37,7 +37,4 @@ public class EmployeeController {
     public Collection<Employee> printList() {
         return employeeService.getAllEmployees();
     }
-
-    @GetMapping("/list12")
-    public Collection<Employee> print(){return employeeService.getAllEmployee();}
 }

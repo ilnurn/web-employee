@@ -26,7 +26,7 @@ public class DepartmentController {
     }
 
     @GetMapping("/all")
-    public List<String> allTeam(@RequestParam(required = false) Integer departmentId) {
+    public Collection<Employee> allTeam(@RequestParam(required = false) Integer departmentId) {
         if (departmentId != null)
             return departmentService.allTeamEmployees(departmentId);
         else
